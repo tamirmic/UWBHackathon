@@ -4,7 +4,6 @@ import './App.css'; // Import the App styles!
 function App() {
   const handleSearch = (url) => {
     console.log('Searching for:', url);
-    // later: send url to backend
   };
 
   return (

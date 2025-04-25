@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import './SearchBar.css'; // Import the CSS file!
+import './SearchBar.css';
 
 function SearchBar({ onSearch }) {
-  const [url, setUrl] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = () => {
-    if (url.trim() !== '') {
-      onSearch(url);
+    if (searchTerm.trim() !== '') {
+      const yelpUrl = `https://www.yelp.com/search?find_desc=${encodeURIComponent(searchTerm)}`;
+      window.open(yelpUrl, '_blank');
+      onSearch(yelpUrl);
     }
   };
 
@@ -14,9 +16,9 @@ function SearchBar({ onSearch }) {
     <div className="search-bar-container">
       <input 
         type="text" 
-        value={url} 
-        onChange={e => setUrl(e.target.value)} 
-        placeholder="Enter Yelp or website URL"
+        value={searchTerm} 
+        onChange={e => setSearchTerm(e.target.value)} 
+        placeholder="Enter restaurant name"
         className="search-input"
         onKeyDown={e => { if (e.key === 'Enter') handleSearch(); }}
       />
