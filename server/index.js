@@ -17,7 +17,15 @@ app.post('/search', async (req, res) => {
 
   try {
     const yelpSearchUrl = `https://www.yelp.com/search?find_desc=${encodeURIComponent(restaurant)}`;
-    const { data } = await axios.get(yelpSearchUrl);
+    const { data } = await axios.get(yelpSearchUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Connection': 'keep-alive'
+      }
+    });
 
     const $ = cheerio.load(data);
 
@@ -27,7 +35,7 @@ app.post('/search', async (req, res) => {
       const link = $(elem).attr('href');
       if (link && link.startsWith('/biz/')) {
         firstResultLink = `https://www.yelp.com${link}`;
-        return false; // Stop after finding the first valid link
+        return false;
       }
     });
 
@@ -38,7 +46,12 @@ app.post('/search', async (req, res) => {
     }
   } catch (error) {
     console.error('Error scraping Yelp:', error.message);
-    res.status(500).send('Server error while scraping Yelp');
+  
+    if (error.response) {
+      console.error('Status:', error.response.status);
+      console.error('Headers:', error.response.headers);
+      console.error('Data:', error.response.data);
+    }
   }
 });
 

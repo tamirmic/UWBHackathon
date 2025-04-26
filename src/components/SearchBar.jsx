@@ -6,9 +6,7 @@ function SearchBar({ onSearch }) {
 
   const handleSearch = () => {
     if (searchTerm.trim() !== '') {
-      const yelpUrl = `https://www.yelp.com/search?find_desc=${encodeURIComponent(searchTerm)}`;
-      window.open(yelpUrl, '_blank');
-      onSearch(yelpUrl);
+      onSearch(searchTerm);
     }
   };
 

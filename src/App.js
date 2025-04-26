@@ -1,9 +1,17 @@
 import SearchBar from './components/SearchBar';
-import './App.css'; // Import the App styles!
+import './App.css';
+import axios from 'axios';
 
 function App() {
-  const handleSearch = (url) => {
-    console.log('Searching for:', url);
+  const handleSearch = async (restaurantName) => {
+    try {
+      const res = await axios.post('http://localhost:5000/search', { restaurant: restaurantName });
+      const restaurantUrl = res.data.url;
+      
+      window.open(restaurantUrl, '_blank');
+    } catch (error) {
+      console.error('Failed to search restaurant:', error);
+    }
   };
 
   return (
