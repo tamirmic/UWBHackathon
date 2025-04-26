@@ -1,58 +1,51 @@
 const express = require('express');
-const axios = require('axios');
-const cheerio = require('cheerio');
 const cors = require('cors');
+const fs = require('fs');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Route to handle search request
-app.post('/search', async (req, res) => {
+// Load businesses.json fully at startup
+const businesses = JSON.parse(
+  fs.readFileSync('./data/yelp_academic_dataset_business.json', 'utf8')
+);
+
+// Load reviews.json fully at startup (for small testing file)
+const reviews = JSON.parse(
+  fs.readFileSync('./data/yelp_academic_dataset_review.json', 'utf8')
+);
+
+app.post('/search', (req, res) => {
   const { restaurant } = req.body;
 
   if (!restaurant) {
     return res.status(400).send('No restaurant name provided');
   }
 
-  try {
-    const yelpSearchUrl = `https://www.yelp.com/search?find_desc=${encodeURIComponent(restaurant)}`;
-    const { data } = await axios.get(yelpSearchUrl, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.5',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Connection': 'keep-alive'
-      }
-    });
+  // Find business that matches restaurant name (case-insensitive)
+  const business = businesses.find(b =>
+    b.name.toLowerCase().includes(restaurant.toLowerCase())
+  );
 
-    const $ = cheerio.load(data);
-
-    let firstResultLink = null;
-
-    $('a.css-19v1rkv').each((i, elem) => {
-      const link = $(elem).attr('href');
-      if (link && link.startsWith('/biz/')) {
-        firstResultLink = `https://www.yelp.com${link}`;
-        return false;
-      }
-    });
-
-    if (firstResultLink) {
-      res.json({ url: firstResultLink });
-    } else {
-      res.status(404).send('No result found');
-    }
-  } catch (error) {
-    console.error('Error scraping Yelp:', error.message);
-  
-    if (error.response) {
-      console.error('Status:', error.response.status);
-      console.error('Headers:', error.response.headers);
-      console.error('Data:', error.response.data);
-    }
+  if (!business) {
+    return res.status(404).send('Restaurant not found');
   }
+
+  // Find reviews for that business_id
+  const matchedReviews = reviews
+    .filter(r => r.business_id === business.business_id)
+    .map(r => r.text);
+
+  if (matchedReviews.length === 0) {
+    return res.status(404).send('No reviews found for this restaurant');
+  }
+
+  // Return name and first 20 reviews
+  res.json({
+    name: business.name,
+    reviews: matchedReviews.slice(0, 20)
+  });
 });
 
 // Start the server

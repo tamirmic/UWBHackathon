@@ -1,0 +1,19 @@
+[
+    {
+      "business_id": "123abc",
+      "name": "Five Guys Burgers and Fries",
+      "city": "Seattle",
+      "state": "WA",
+      "stars": 4.0,
+      "review_count": 200
+    },
+    {
+      "business_id": "456def",
+      "name": "In-N-Out Burger",
+      "city": "Los Angeles",
+      "state": "CA",
+      "stars": 4.5,
+      "review_count": 150
+    }
+  ]
+  
