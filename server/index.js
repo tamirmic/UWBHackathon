@@ -8,12 +8,12 @@ app.use(express.json());
 
 // Load businesses.json fully at startup
 const businesses = JSON.parse(
-  fs.readFileSync('./data/yelp_academic_dataset_business.json', 'utf8')
+  fs.readFileSync('./data/california_business.json', 'utf8')
 );
 
 // Load reviews.json fully at startup (for small testing file)
 const reviews = JSON.parse(
-  fs.readFileSync('./data/yelp_academic_dataset_review.json', 'utf8')
+  fs.readFileSync('./data/california_review.json', 'utf8')
 );
 
 app.post('/search', (req, res) => {
@@ -44,7 +44,7 @@ app.post('/search', (req, res) => {
   // Return name and first 20 reviews
   res.json({
     name: business.name,
-    reviews: matchedReviews.slice(0, 20)
+    reviews: matchedReviews.slice(0, 100000)
   });
 });
 
