@@ -4,7 +4,7 @@ import './App.css';
 import axios from 'axios';
 
 function App() {
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState('');
   const [restaurantName, setRestaurantName] = useState('');
   const [shake, setShake] = useState(false); // Define shake state
 
@@ -16,16 +16,19 @@ function App() {
     }
 
     try {
-      setReviews([]);
+      setError('');
+      setReviews('');
 
       const res = await axios.post('http://localhost:5050/search', { restaurant: restaurantName });
-
+      console.log(res)
       setRestaurantName(res.data.name);
       setReviews(res.data.reviews);
+      console.log(reviews.toString())
     } catch (error) {
       console.error('Failed to search restaurant:', error);
       setRestaurantName('');
-      setReviews([]);
+      setReviews('');  
+
     }
   };
 
@@ -42,6 +45,10 @@ function App() {
 
         {restaurantName && <h2>Summary for {restaurantName}</h2>}
       </header>
+
+      <h4>{ reviews.toString() }</h4>
+
+      
 
       <section className="feedback-section">
         <h2>Feedback & Suggestions</h2>

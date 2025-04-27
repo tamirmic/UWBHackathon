@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
+const ai_call = require("./ai_typefein")
 
 const app = express();
 app.use(cors());
@@ -16,7 +17,8 @@ const reviews = JSON.parse(
   fs.readFileSync('./data/california_review.json', 'utf8')
 );
 
-app.post('/search', (req, res) => {
+
+app.post('/search', async (req, res) => {
   const { restaurant } = req.body;
 
   if (!restaurant) {
@@ -37,14 +39,18 @@ app.post('/search', (req, res) => {
     .filter(r => r.business_id === business.business_id)
     .map(r => r.text);
 
+
   if (matchedReviews.length === 0) {
     return res.status(404).send('No reviews found for this restaurant');
   }
+  const review_Batch = matchedReviews.slice(0, 100000);
+
+  const summary = await ai_call.geminiResponse(review_Batch)
 
   // Return name and first 20 reviews
   res.json({
     name: business.name,
-    reviews: matchedReviews.slice(0, 100000)
+    reviews: summary
   });
 });
 
