@@ -17,7 +17,8 @@ function App() {
 
     try {
       setReviews([]);
-      const res = await axios.post('http://localhost:5050/search', { restaurant: searchTerm });
+
+      const res = await axios.post('http://localhost:5050/search', { restaurant: restaurantName });
 
       setRestaurantName(res.data.name);
       setReviews(res.data.reviews);
