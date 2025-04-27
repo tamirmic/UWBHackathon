@@ -3,6 +3,7 @@ import SearchBar from './components/SearchBar';
 import './App.css';
 import axios from 'axios';
 import { Reviews } from './Reviews'
+import { CardGrid } from './Card';
 
 function App() {
   const [reviews, setReviews] = useState('');
@@ -44,9 +45,11 @@ function App() {
         {restaurantName && <h2>Summary for {restaurantName}</h2>}
       </header>
 
-    
+      <div className='cards-container'>
+      <Reviews reviews={reviews}/>
 
-      <Reviews reviews={reviews} />
+      </div>
+
 
       <section className="feedback-section">
         <h2>Feedback & Suggestions</h2>

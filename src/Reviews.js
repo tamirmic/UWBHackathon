@@ -1,4 +1,4 @@
-import { Card, CardContent } from './Card';
+import { Card, CardContent, CardGrid} from './Card';
 
 
 export function Reviews({ reviews }) {
@@ -33,7 +33,7 @@ export function Reviews({ reviews }) {
     }
   
     return (
-      <div className="flex flex-wrap gap-4">
+      <CardGrid>
         {cards.map((card, index) => (
           <Card key={index} className="w-80">
             <CardContent className="p-4">
@@ -44,7 +44,8 @@ export function Reviews({ reviews }) {
             </CardContent>
           </Card>
         ))}
-      </div>
+      </CardGrid>
+
     );
   }
 

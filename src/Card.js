@@ -7,6 +7,7 @@ const cardStyle = {
   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
   transition: 'all 0.3s ease',
   overflow: 'hidden',
+  width: '50vh',         // fixed width for nice grid layout
 };
 
 const cardHoverStyle = {
@@ -17,6 +18,17 @@ const cardHoverStyle = {
 const cardContentStyle = {
   padding: '24px',
 };
+
+const cardGridStyle = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: '20px',
+  justifyContent: 'center',
+};
+
+export function CardGrid({ children }) {
+  return <div style={cardGridStyle}>{children}</div>;
+}
 
 export function Card({ children, className = '' }) {
   const [isHovered, setIsHovered] = React.useState(false);
