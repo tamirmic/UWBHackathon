@@ -2,11 +2,14 @@ import { useState } from 'react';
 import SearchBar from './components/SearchBar';
 import './App.css';
 import axios from 'axios';
+import { Reviews } from './Reviews'
 
 function App() {
   const [reviews, setReviews] = useState('');
   const [restaurantName, setRestaurantName] = useState('');
   const [shake, setShake] = useState(false);
+
+  
 
   const handleSearch = async (searchTerm) => {
     if (searchTerm.trim() === '') {
@@ -41,24 +44,9 @@ function App() {
         {restaurantName && <h2>Summary for {restaurantName}</h2>}
       </header>
 
-      {/* FORMAT REVIEWS CLEANLY */}
-      <div className="reviews-content">
-        {reviews.split('\n').map((line, index) => {
-          if (line.trim().startsWith('**')) {
-            // Bold headings
-            return <h3 key={index}>{line.replace(/\*\*/g, '')}</h3>;
-          } else if (line.trim().startsWith('*')) {
-            // Bullet points
-            return <li key={index}>{line.replace(/\*/g, '')}</li>;
-          } else if (line.trim() === '') {
-            // Empty line = spacing
-            return <br key={index} />;
-          } else {
-            // Regular paragraph
-            return <p key={index}>{line}</p>;
-          }
-        })}
-      </div>
+    
+
+      <Reviews reviews={reviews} />
 
       <section className="feedback-section">
         <h2>Feedback & Suggestions</h2>
