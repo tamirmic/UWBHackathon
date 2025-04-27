@@ -6,28 +6,25 @@ import axios from 'axios';
 function App() {
   const [reviews, setReviews] = useState('');
   const [restaurantName, setRestaurantName] = useState('');
-  const [shake, setShake] = useState(false); // Define shake state
+  const [shake, setShake] = useState(false);
 
   const handleSearch = async (searchTerm) => {
     if (searchTerm.trim() === '') {
-      setShake(true); // Trigger shake when search term is empty
-      setTimeout(() => setShake(false), 500); // Stop shaking after 500ms
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
       return;
     }
 
     try {
       setReviews('');
-
       const res = await axios.post('http://localhost:5050/search', { restaurant: searchTerm });
-      console.log(res)
+      console.log(res);
       setRestaurantName(res.data.name);
       setReviews(res.data.reviews);
-      console.log(reviews.toString())
     } catch (error) {
       console.error('Failed to search restaurant:', error);
       setRestaurantName('');
-      setReviews('');  
-
+      setReviews('');
     }
   };
 
@@ -36,8 +33,7 @@ function App() {
       <header>
         <h1>Analyze Reviews, Optimize Your Restaurant</h1>
         <p>Get valuable insights and actionable feedback to help your restaurant improve and grow.</p>
-        
-        {/* Apply shake class conditionally */}
+
         <div className={`search-container ${shake ? 'shake' : ''}`}>
           <SearchBar onSearch={handleSearch} />
         </div>
@@ -45,9 +41,24 @@ function App() {
         {restaurantName && <h2>Summary for {restaurantName}</h2>}
       </header>
 
-      <h4>{ reviews.toString() }</h4>
-
-      
+      {/* FORMAT REVIEWS CLEANLY */}
+      <div className="reviews-content">
+        {reviews.split('\n').map((line, index) => {
+          if (line.trim().startsWith('**')) {
+            // Bold headings
+            return <h3 key={index}>{line.replace(/\*\*/g, '')}</h3>;
+          } else if (line.trim().startsWith('*')) {
+            // Bullet points
+            return <li key={index}>{line.replace(/\*/g, '')}</li>;
+          } else if (line.trim() === '') {
+            // Empty line = spacing
+            return <br key={index} />;
+          } else {
+            // Regular paragraph
+            return <p key={index}>{line}</p>;
+          }
+        })}
+      </div>
 
       <section className="feedback-section">
         <h2>Feedback & Suggestions</h2>
