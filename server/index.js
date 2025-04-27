@@ -37,6 +37,8 @@ app.post('/search', (req, res) => {
     .filter(r => r.business_id === business.business_id)
     .map(r => r.text);
 
+  const review_Batch = matchedReviews.slice(0, 100000);
+
   if (matchedReviews.length === 0) {
     return res.status(404).send('No reviews found for this restaurant');
   }
@@ -44,7 +46,7 @@ app.post('/search', (req, res) => {
   // Return name and first 20 reviews
   res.json({
     name: business.name,
-    reviews: matchedReviews.slice(0, 100000)
+    reviews: review_Batch
   });
 });
 
