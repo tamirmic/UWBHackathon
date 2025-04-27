@@ -49,5 +49,5 @@ app.post('/search', (req, res) => {
 });
 
 // Start the server
-const PORT = 5000;
+const PORT = 5050;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
