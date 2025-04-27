@@ -1,16 +1,87 @@
 body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f8ff;
+  color: #2c2c2c;
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f5f5;
+  padding: 0;
 }
-
-.app-container {
+header {
   text-align: center;
+  padding: 4rem 2rem;
+}
+header h1 {
+  font-size: 2.5rem;
+  color: #332851;
+}
+header p {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+.search-container {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+.search-container input {
+  padding: 1rem;
+  width: 300px;
+  border: 2px solid #ccc;
+  border-radius: 10px 0 0 10px;
+  font-size: 1rem;
+}
+.search-container button {
+  padding: 1rem 2rem;
+  background-color: #7c65b0;
+  color: white;
+  border: none;
+  border-radius: 0 10px 10px 0;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.feedback-section {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+.feedback-section h2 {
+  font-size: 2rem;
+  color: #332851;
+}
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+  padding: 0 2rem;
+}
+.card {
+  background: white;
   padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+.card i {
+  font-size: 2rem;
+  color: #7c65b0;
+  margin-bottom: 1rem;
+}
+.card h3 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+.card p {
+  font-size: 0.95rem;
+  color: #555;
 }
 
-h1 {
-  color: #333;
-  margin-bottom: 2rem;
-  font-size: 2.5rem;
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 0.5s;
 }
