@@ -4,23 +4,24 @@ import './App.css';
 import axios from 'axios';
 
 function App() {
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState('');
   const [restaurantName, setRestaurantName] = useState('');
   const [error, setError] = useState('');
 
   const handleSearch = async (restaurantName) => {
     try {
       setError('');
-      setReviews([]);
+      setReviews('');
       const res = await axios.post('http://localhost:5050/search', { restaurant: restaurantName });
-
+      console.log(res)
       setRestaurantName(res.data.name);
       setReviews(res.data.reviews);
+      console.log(reviews.toString())
     } catch (error) {
       console.error('Failed to search restaurant:', error);
       setError('Restaurant not found or server error');
       setRestaurantName('');
-      setReviews([]);  
+      setReviews('');  
     }
   };
 
@@ -33,11 +34,9 @@ function App() {
 
       {restaurantName && <h2>Reviews for {restaurantName}</h2>}
 
-      <ul>
-        {reviews.map((review, idx) => (
-          <li key={idx}>{review}</li>
-        ))}
-      </ul>
+      <h4>{ reviews.toString() }</h4>
+
+      
     </div>
   );
 }
