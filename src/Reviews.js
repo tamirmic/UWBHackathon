@@ -21,6 +21,9 @@ export function Reviews({ reviews }) {
       } else if (line === '') {
         // Optionally, add a <br /> or ignore
         currentCard?.content.push(<br key={`br-${index}`} />);
+      } else if (line.startsWith('*   Issue')) {
+        currentCard?.content.push(<p key={`p-${index}`}>{line}</p>);
+
       } else if (line.startsWith('*')) {
         currentCard?.content.push(<li key={`li-${index}`}>{line.replace(/\*/g, '')}</li>);
       } else {
