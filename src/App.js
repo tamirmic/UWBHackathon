@@ -16,7 +16,6 @@ function App() {
     }
 
     try {
-      setError('');
       setReviews('');
 
       const res = await axios.post('http://localhost:5050/search', { restaurant: restaurantName });
