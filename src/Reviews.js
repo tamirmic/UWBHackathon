@@ -19,10 +19,28 @@ export function Reviews({ reviews }) {
       if (currentCard) {
         cards.push(currentCard);
       }
+      
+      // Extract impact level from title if available
+      let title = line.replace(/\*\*/g, '');
+      let impactLevel = 'medium';
+      
+      // Check for impact level tags
+      if (title.includes('[HIGH IMPACT]')) {
+        impactLevel = 'high';
+        title = title.replace('[HIGH IMPACT]', '').trim();
+      } else if (title.includes('[MEDIUM IMPACT]')) {
+        impactLevel = 'medium';
+        title = title.replace('[MEDIUM IMPACT]', '').trim();
+      } else if (title.includes('[LOW IMPACT]')) {
+        impactLevel = 'low';
+        title = title.replace('[LOW IMPACT]', '').trim();
+      }
+      
       currentCard = {
-        title: line.replace(/\*\*/g, ''),
+        title: title,
         content: [],
         icon: getIconForTitle(line),
+        impactLevel: impactLevel
       };
     } else if (line === '') {
       // Optionally, add a <br /> or ignore
@@ -70,10 +88,13 @@ export function Reviews({ reviews }) {
   return (
     <div className="reviews-grid">
       {cards.map((card, index) => (
-        <div key={index} className="review-card">
+        <div key={index} className={`review-card impact-${card.impactLevel}`}>
           <div className="review-header">
             <div className="review-icon">{card.icon}</div>
             <h3 className="review-title">{card.title}</h3>
+            <div className={`impact-badge ${card.impactLevel}`}>
+              {card.impactLevel.charAt(0).toUpperCase() + card.impactLevel.slice(1)}
+            </div>
           </div>
           <div className="review-content">
             {card.content}

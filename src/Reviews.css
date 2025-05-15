@@ -14,6 +14,19 @@
   border: 1px solid #f0f0f0;
 }
 
+/* Impact level styling for cards */
+.impact-high {
+  border-left: 5px solid #ef4444;
+}
+
+.impact-medium {
+  border-left: 5px solid #f59e0b;
+}
+
+.impact-low {
+  border-left: 5px solid #10b981;
+}
+
 .review-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 20px rgba(0, 0, 0, 0.08);
@@ -38,6 +51,28 @@
   font-weight: 600;
   color: #1f2937;
   flex: 1;
+}
+
+/* Impact badge styling */
+.impact-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: white;
+}
+
+.impact-badge.high {
+  background-color: #ef4444;
+}
+
+.impact-badge.medium {
+  background-color: #f59e0b;
+}
+
+.impact-badge.low {
+  background-color: #10b981;
 }
 
 .review-content {
